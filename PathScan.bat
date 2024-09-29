@@ -257,63 +257,52 @@ dir /b *.txt
 echo ===================================================
 echo.
 
-rem create the analyzer folder if it doesn't exist
-if not exist "export" (
-    mkdir "export"
-)
+@echo off
 
-:inputLoop
-rem prompt for the input file path
+echo PathScan Data Analyzer
+echo.
+
+rem create the ANALYZER "export" folder if it doesn't exist
+if not exist "export" mkdir "export"
+
+:retry_file
+rem input file path/name
 set /p "input_file=Select a PathScan Output File (.txt): "
 
-rem Remove surrounding quotes from the input if they exist
-set "input_file=%input_file:"=%"
+rem check if the input file field is empty
+if "%input_file%"=="" (
+    echo ERROR: YOU MUST ENTER A KEYWORD/FILE TYPE - PLEASE TRY AGAIN
+    goto retry_file
+)
 
-rem Check if the input file exists
+rem check if the input file exists
 if not exist "%input_file%" (
-    echo ERROR: File not found: "%input_file%"
-    goto inputLoop
+    echo ERROR: FILE NOT FOUND: %nput_file% - PLEASE TRY AGAIN 
+    goto retry_file
 )
 
-rem Prompt user for the keyword to search
+:retry_keyword
+rem prompt keyword to search
 set /p "keyword=Keyword/File Type: "
+
+rem check if the keyword is empty
 if "%keyword%"=="" (
-    echo ERROR: Keyword cannot be empty.
-    pause
-    exit /b
+    echo ERROR: YOU MUST ENTER A KEYWORD/FILE TYPE - PLEASE TRY AGAIN
+    goto retry_keyword
 )
 
-rem Set the output file name based on the keyword
+rem set output file name
 set "output_file=export\%keyword%_output_paths.txt"
 
-rem Clear or create the output file
+rem create the output file
 echo. > "%output_file%"
 
 echo.
 echo Searching for paths containing "%keyword%"...
 echo.
 
-rem Loop through each line in the input file
-for /f "usebackq tokens=*" %%A in ("%input_file%") do (
-    rem Display each line being processed
-    set "status=Processing: %%A"
-
-    rem Check if the line contains the keyword
-    echo %%A | findstr /I /C:"%keyword%" > nul
-    if not errorlevel 1 (
-        rem Update the status to Found
-        set "status=Found: %%A"
-
-        rem Display the found path in real-time
-        echo !status!
-
-        rem Append the found path to the output file
-        echo %%A >> "%output_file%"
-    ) else (
-        rem Display the processing status if not found
-        echo !status!
-    )
-)
+rem Use findstr to directly search for the keyword in the file
+findstr /I /C:"%keyword%" "%input_file%" > "%output_file%"
 
 echo.
 color 2
