@@ -1,12 +1,11 @@
 @echo off
-title PathScan
-
 setlocal enabledelayedexpansion
 
 :restart
 cls
 
 :pathscan
+title PathScan
 ::: github.com/cafali/pathscan
 ::: ______     _   _     _____                  
 ::: | ___ \   | | | |   /  ___|                
@@ -41,14 +40,14 @@ set "hour=!hour: =!"
 set "minute=!minute: =!"
 set "second=!second: =!"
 
-:: format date and time for output
+:: format date and time for output file
 set "formatted_date=%year%-%month%-%day%"
 set "formatted_time=!hour!-!minute!-!second!"
 
-:: define output folder path on the Desktop
+:: define output folder path on the desktop
 set "output_folder=%USERPROFILE%\Desktop\PathScan"
 
-:: check if the PathScan folder exists, create it if it doesn't
+:: check if the PathScan folder exists
 if not exist "%output_folder%" (
     mkdir "%output_folder%"
 )
@@ -251,60 +250,62 @@ goto restart
 :: file analyzer
 
 :analyze
+title PathScan Analyzer
 cls
 echo PathScan File Analyzer
-echo NOTE: type /back to return to the selection menu.
+echo NOTE: TYPE /back TO RETURN TO THE SELECTION MENU.
 echo ===================================================
 echo PathScan files available (TAB to autofill):
 echo.
 dir /b *.txt
 echo ===================================================
 echo.
-rem create the ANALYZER "export" folder if it doesn't exist
+
+:: create the ANALYZER "export" folder if it doesn't exist
 if not exist "export" mkdir "export"
 
 :retry_file
-rem input file path/name
+:: input file path/name
 set /p "input_file=Select a PathScan Output File (.txt): "
 
-rem check if the user enters /back to go to restart
+:: check if the user enters /back to go to restart
 if "%input_file%"=="/back" (
     goto restart
 )
 
-rem check if the input file field is empty
+:: check if the input file field is empty
 if "%input_file%"=="" (
     echo ERROR: YOU MUST ENTER A KEYWORD/FILE TYPE - PLEASE TRY AGAIN
     goto retry_file
 )
 
-rem check if the input file exists
+:: check if the input file exists
 if not exist "%input_file%" (
     echo ERROR: FILE NOT FOUND: %nput_file% - PLEASE TRY AGAIN 
     goto retry_file
 )
 
 :retry_keyword
-rem prompt keyword to search
+:: prompt keyword to search
 set /p "keyword=Keyword/File Type: "
 
-rem check if the keyword is empty
+:: check if the keyword is empty
 if "%keyword%"=="" (
     echo ERROR: YOU MUST ENTER A KEYWORD/FILE TYPE - PLEASE TRY AGAIN
     goto retry_keyword
 )
 
-rem set output file name
+:: set output file name
 set "output_file=export\%keyword%_export_%input_file%"
 
-rem create the output file
+:: create the output file
 echo. > "%output_file%"
 
 echo.
 echo Searching for paths containing "%keyword%"...
 echo.
 
-rem Use findstr to directly search for the keyword in the file
+:: findstr - search for keyword in the file
 findstr /I /C:"%keyword%" "%input_file%" > "%output_file%"
 %
 
