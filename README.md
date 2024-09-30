@@ -4,6 +4,11 @@
 
 PathScan is a script designed to export information about the contents of directories and hard drives. With a single click, users can create a complete list of all files and paths within a specific folder or across an entire hard drive.
 
+### Key Features:
+- **🔍 Scan Drives or Folders:** Quickly get a **FULL LIST** of **ALL FILES** and **FOLDERS** on your PC.
+- **📝 File List:** The file paths are saved in a text file in a "PathScan" folder on your Desktop.
+- **⚡ Find Any File:** Easily locate **ANY FILE** on your PC in **SECONDS** using the **PathScan File Analyzer**.
+
 ![PathScan](https://github.com/user-attachments/assets/687fc754-ee13-4bcf-8491-78380091c350)
 
 ```
