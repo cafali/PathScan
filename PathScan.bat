@@ -253,7 +253,7 @@ goto restart
 title PathScan Analyzer
 cls
 echo PathScan File Analyzer
-echo NOTE: TYPE /back TO RETURN TO THE SELECTION MENU.
+echo NOTE: TYPE /back TO RETURN TO THE SELECTION MENU
 echo ===================================================
 echo PathScan files available (TAB to autofill):
 echo.
