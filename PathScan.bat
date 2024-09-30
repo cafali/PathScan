@@ -4,6 +4,9 @@ title PathScan
 setlocal enabledelayedexpansion
 
 :restart
+cls
+
+:pathscan
 ::: github.com/cafali/pathscan
 ::: ______     _   _     _____                  
 ::: | ___ \   | | | |   /  ___|                
@@ -250,24 +253,24 @@ goto restart
 :analyze
 cls
 echo PathScan File Analyzer
+echo NOTE: type /back to return to the selection menu.
 echo ===================================================
 echo PathScan files available (TAB to autofill):
 echo.
 dir /b *.txt
 echo ===================================================
 echo.
-
-@echo off
-
-echo PathScan Data Analyzer
-echo.
-
 rem create the ANALYZER "export" folder if it doesn't exist
 if not exist "export" mkdir "export"
 
 :retry_file
 rem input file path/name
 set /p "input_file=Select a PathScan Output File (.txt): "
+
+rem check if the user enters /back to go to restart
+if "%input_file%"=="/back" (
+    goto restart
+)
 
 rem check if the input file field is empty
 if "%input_file%"=="" (
@@ -292,7 +295,7 @@ if "%keyword%"=="" (
 )
 
 rem set output file name
-set "output_file=export\%keyword%_output_paths.txt"
+set "output_file=export\%keyword%_export_%input_file%"
 
 rem create the output file
 echo. > "%output_file%"
@@ -303,6 +306,7 @@ echo.
 
 rem Use findstr to directly search for the keyword in the file
 findstr /I /C:"%keyword%" "%input_file%" > "%output_file%"
+%
 
 echo.
 color 2
@@ -315,6 +319,6 @@ echo Paths containing '%keyword%' have been exported to '%output_file%' - Press 
 pause > nul
 cls
 color 7
-goto restart
+goto analyze
 
 endlocal
