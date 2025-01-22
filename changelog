@@ -1,0 +1,15 @@
+PathScan Updates
+
+Version 1.0.0 (Initial Release Features)
+-------------------------------------------------  
+- Drive Connectivity Check: Added currectly connected (cc) command to list connected drives and their status
+- Directory Scanning: Support for scanning the current directory (cd) or any specific drive (e.g., C, D, etc.)
+- Output Folder Management: Automatically creates a PathScan folder on the desktop for organizing output files
+- Timestamped Outputs: Output files include hostname, date, and time for easy tracking
+- Comprehensive Path Collection: Recursively collects file and folder paths from the selected directory or drive
+- File Analysis Module: Allows analysis of output files to search for specific keywords or file types using the (an) command
+- Export Capabilities: Filters and exports search results into an organized export folder
+- Formatted Outputs: Clean and structured output files for readability
+
+PathScan by https://github.com/cafali
+cafali.art - cafalidev@gmail.com
