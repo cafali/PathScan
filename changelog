@@ -1,5 +1,11 @@
 PathScan Updates
 
+Version 1.0.1 (March 2025)
+------------------------------------------------- 
+- Changed output folder to use the current directory instead of the Desktop
+- Adjusted Analyzer Message/Instruction sequence
+- Added PathScan README
+
 Version 1.0.0 (Initial Release Features)
 -------------------------------------------------  
 - Drive Connectivity Check: Added currectly connected (cc) command to list connected drives and their status

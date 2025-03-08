@@ -12,7 +12,7 @@ title PathScan
 ::: | |_/ /_ _| |_| |__ \ `--.  ___ __ _ _ __  
 ::: |  __/ _` | __| '_ \ `--. \/ __/ _` | '_ \ 
 ::: | | | (_| | |_| | | /\__/ / (_| (_| | | | |
-::: \_|  \__,_|\__|_| |_\____/ \___\__,_|_| |_| v.1.0.0
+::: \_|  \__,_|\__|_| |_\____/ \___\__,_|_| |_| v.1.0.1
 
 for /f "delims=: tokens=*" %%A in ('findstr /b ::: "%~f0"') do @echo(%%A
 
@@ -45,7 +45,7 @@ set "formatted_date=%year%-%month%-%day%"
 set "formatted_time=!hour!-!minute!-!second!"
 
 :: define output folder path on the desktop
-set "output_folder=%USERPROFILE%\Desktop\PathScan"
+set "output_folder=%CD%"
 
 :: check if the PathScan folder exists
 if not exist "%output_folder%" (
@@ -253,12 +253,14 @@ goto restart
 title PathScan Analyzer
 cls
 echo PathScan File Analyzer
-echo NOTE: TYPE /back TO RETURN TO THE SELECTION MENU
+echo.
 echo ===================================================
 echo PathScan files available (TAB to autofill):
 echo.
 dir /b *.txt
 echo ===================================================
+echo.
+echo NOTE: TYPE /back TO RETURN TO THE SELECTION MENU
 echo.
 
 :: create the ANALYZER "export" folder if it doesn't exist
