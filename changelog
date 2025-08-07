@@ -1,5 +1,11 @@
 PathScan Updates
 
+Version 1.0.2 (August 2025)
+------------------------------------------------- 
+-  Added "Scan All Drives" option (sa) to perform a full client scan across all connected drives
+-  Each drive is detected automatically and scanned recursively
+- Output files are generated per drive in the PathScan folder
+
 Version 1.0.1 (March 2025)
 ------------------------------------------------- 
 - Changed output folder to use the current directory instead of the Desktop
