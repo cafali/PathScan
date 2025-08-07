@@ -12,7 +12,7 @@ title PathScan
 ::: | |_/ /_ _| |_| |__ \ `--.  ___ __ _ _ __  
 ::: |  __/ _` | __| '_ \ `--. \/ __/ _` | '_ \ 
 ::: | | | (_| | |_| | | /\__/ / (_| (_| | | | |
-::: \_|  \__,_|\__|_| |_\____/ \___\__,_|_| |_| v.1.0.1
+::: \_|  \__,_|\__|_| |_\____/ \___\__,_|_| |_| v.1.0.2
 
 for /f "delims=: tokens=*" %%A in ('findstr /b ::: "%~f0"') do @echo(%%A
 
@@ -60,6 +60,7 @@ echo =========================================
 echo an - Analyze Output File
 echo cc - Check Connected Drives
 echo cd - Scan Current Directory
+echo sa - Scan All Connected Drives (Full Client Scan)
 echo.
 echo For a Full Hard Drive Scan - SELECT any DRIVE LETTER 
 echo (e.g - "C" for C:\ drive)
@@ -92,6 +93,66 @@ if /I "%choice%"=="cc" (
 :: analyze output file
 if /I "%choice%"=="an" (
     goto :analyze
+)
+
+:: scan all connected drives
+if /I "%choice%"=="sa" (
+    cls
+    echo ===================================================
+    echo Full Client Scan - Scanning All Connected Drives
+    echo ===================================================
+    echo.
+    echo Drives currently connected:
+    echo.
+    set "drives_found="
+    for %%D in (C D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
+        if exist %%D:\ (
+            echo Online: %%D:\
+            set "drives_found=!drives_found! %%D"
+        )
+    )
+    if "!drives_found!"=="" (
+        echo No drives are currently online.
+        pause
+        cls
+        goto restart
+    )
+    for %%D in (!drives_found!) do (
+        set "folder=%%D:\"
+        set "folder_name=%%D_Drive"
+        set "output_file=%output_folder%\!folder_name!_PathScan_%formatted_date%_%formatted_time%.txt"
+        echo.
+        echo ===================================================
+        echo Scanning All Connected Drives - Current Drive: %%D:\
+        echo ===================================================
+        echo.
+        echo Collecting all file and folder paths from "%%D:\"
+        echo Please wait, this may take a few moments...
+        (
+            echo %hostname% %formatted_date% %formatted_time%
+            echo Start Directory: %%D:\
+            echo.
+        ) > "!output_file!"
+        dir /s /b "%%D:\" >> "!output_file!"
+        if errorlevel 1 (
+            echo.
+            echo An error occurred while collecting paths from %%D:\. Please check your permissions or try again.
+        ) else (
+            echo DONE - Output: !output_file!
+        )
+    )
+    echo.
+    cls
+    color a
+    echo ===================================================
+    echo DONE - Process Complete
+    echo ===================================================
+    echo All connected drives have been scanned.
+    echo FILES SAVED IN THE PATHSCAN FOLDER - Press ANY KEY to RETURN to SELECTION
+    pause >nul
+    color 7
+    cls
+    goto restart
 )
 
 :: drive choice
